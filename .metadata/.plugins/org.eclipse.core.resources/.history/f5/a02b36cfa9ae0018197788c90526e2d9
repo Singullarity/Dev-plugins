@@ -1,0 +1,4 @@
+package fr.Dyrazz.DataBase.Events;
+
+public class EventsCosmectics implemments Listener {
+}

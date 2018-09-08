@@ -1,0 +1,86 @@
+package fr.Dyrazz.DataBase;
+
+
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import fr.Dyrazz.DataBase.Stats.statName;
+
+
+
+public class Main extends JavaPlugin implements Listener {
+	
+	private DataBase data = new DataBase();
+	
+	@Override
+	public void onEnable() {
+		getServer().getPluginManager().registerEvents(this, this);
+	}
+	
+	@Override
+	public void onDisable() {
+	}
+	
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		Player p = event.getPlayer();
+		data.add(p.getName());
+		float goodHit = data.getStat(p.getName(), statName.correctHitSword);
+		float badHit = data.getStat(p.getName(), statName.badHitSword);
+		p.sendMessage("Coups épée bien : " + (int)(goodHit) +
+				"\nMauvais coups épée : " + (int)(badHit));
+		if (goodHit > 0)
+			p.sendMessage((goodHit - badHit) / (goodHit + badHit)  * 100 + " %");
+		else if (badHit == 0)
+			p.sendMessage("100 %");
+		else
+			p.sendMessage("0 %");
+				
+	}
+	
+	@EventHandler
+	public void onInteract(PlayerInteractEvent event) {
+		Player p = event.getPlayer();
+		Action action = event.getAction();
+		ItemStack stack = event.getItem();
+		
+		if (stack.getType() == null)
+			return;
+		
+		if (stack.getType() == Material.WOODEN_SWORD || stack.getType() == Material.STONE_SWORD || stack.getType() == Material.IRON_SWORD || stack.getType() == Material.GOLDEN_SWORD || stack.getType() == Material.DIAMOND_SWORD) {
+			if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
+				data.setStat(p.getName(), statName.badHitSword, data.getStat(p.getName(), statName.badHitSword) + 1);
+				p.sendMessage("+ 1 mauvais");
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onDamageDeal(EntityDamageByEntityEvent event) {
+		if(event.getDamager() instanceof Player) {
+			Player p = (Player) event.getDamager();
+			Material item = p.getInventory().getItemInMainHand().getType();
+			if (item == null)
+				return;
+			if (item == Material.WOODEN_SWORD || item == Material.STONE_SWORD || item == Material.IRON_SWORD || item == Material.GOLDEN_SWORD || item == Material.DIAMOND_SWORD) {
+				if (event.getEntity() instanceof Player) {
+					data.setStat(p.getName(), statName.correctHitSword, data.getStat(p.getName(), statName.correctHitSword) + 1);
+					p.sendMessage("+ 1 bon");
+				} else {  //modif par badHitSword
+					data.setStat(p.getName(), statName.correctHitSword, data.getStat(p.getName(), statName.correctHitSword) + 1);
+					p.sendMessage("+ 1 mauvais");
+					p.sendMessage("" + data.getStat(p.getName(), statName.correctHitSword));
+				}
+			}
+		}
+	}
+	
+}

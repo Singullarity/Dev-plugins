@@ -1,0 +1,27 @@
+package fr.Dyrazz.DataBase;
+
+import java.util.ArrayList;
+
+import org.bukkit.entity.Player;
+
+public class DataBase {
+	private ArrayList<String> playersName = new ArrayList<String>();
+	private ArrayList<Stats> playersStats = new ArrayList<Stats>();
+	
+	public void add(Player p, String name) {
+		for (int i = 0; i < playersName.size(); i++) {
+			p.sendMessage(name);
+			if (name.equalsIgnoreCase(playersName.get(i)))
+				return;
+		}
+		playersName.add(name);
+		playersStats.add(new Stats());
+	}
+	
+	public ArrayList<String> getData() {
+		return playersName;
+	}
+	
+	public void setStat(String playerName, )
+	
+}

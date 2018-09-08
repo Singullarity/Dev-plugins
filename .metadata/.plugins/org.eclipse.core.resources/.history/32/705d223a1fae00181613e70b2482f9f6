@@ -1,0 +1,21 @@
+package fr.Dyrazz.DataBase.Events;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.util.Vector;
+
+
+
+public class Appearences implements Listener {
+	public enum appearencesName {
+		water_walk,
+		lava_warlk
+	}
+	
+	@EventHandler
+	public static void onWalking(World w, Player p) {
+		Location l = p.getLocation();
+		
+}

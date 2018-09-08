@@ -1,0 +1,13 @@
+package fr.Dyrazz.DataBase.Events;
+
+import org.bukkit.event.Listener;
+
+public class Appearences implements Listener {
+	public enum appearencesName {
+		water_walk,
+		lava_warlk
+	}
+	
+	@EventHandler
+	public static void onWalking
+}

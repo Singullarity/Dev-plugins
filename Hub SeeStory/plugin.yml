@@ -1,0 +1,6 @@
+api-version: 1.13
+name: HubSeeStory
+main: fr.Dyrazz.SeeStory.Hub.Main
+version: 1.0
+author: DYRAZZ
+description: Description

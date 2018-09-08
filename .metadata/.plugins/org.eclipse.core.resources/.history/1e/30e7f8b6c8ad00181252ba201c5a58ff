@@ -1,0 +1,23 @@
+package fr.Dyrazz.DataBase;
+
+import java.util.ArrayList;
+
+public class Stats {
+	private int[] stats = new int[2];
+	
+	public static enum statName {
+		correctHitSword(0),
+		badHitSword(1)
+	}
+	
+	public void init() {
+		stats[0] = 0;
+		stats[1] = 0;
+	}
+	
+	public void setStats(int stat, int value) {
+		switch (stat) {
+		
+		}
+	}
+}

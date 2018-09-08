@@ -1,0 +1,64 @@
+package fr.Dyrazz.DataBase.Events;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
+
+import fr.Dyrazz.DataBase.DataBase;
+import fr.Dyrazz.DataBase.Stats.statName;
+
+public class EventsStats implements Listener {
+	
+	public static DataBase data = new DataBase();
+	
+	@EventHandler
+	public void onInteract(PlayerInteractEvent event) {
+		Player p = event.getPlayer();
+		Action action = event.getAction();
+		ItemStack stack = event.getItem();
+		
+		if (stack.getType() == null)
+			return;
+		
+		if (stack.getType() == Material.WOODEN_SWORD || stack.getType() == Material.STONE_SWORD || stack.getType() == Material.IRON_SWORD || stack.getType() == Material.GOLDEN_SWORD || stack.getType() == Material.DIAMOND_SWORD) {
+			if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
+				data.setStat(p.getName(), statName.badHitSword, data.getStat(p.getName(), statName.badHitSword) + 1);
+				p.sendMessage("+ 1 mauvais");
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onDamageDeal(EntityDamageByEntityEvent event) {
+		if(event.getDamager() instanceof Player) {
+			Player p = (Player) event.getDamager();
+			Material item = p.getInventory().getItemInMainHand().getType();
+			if (item == null)
+				return;
+			if (item == Material.WOODEN_SWORD || item == Material.STONE_SWORD || item == Material.IRON_SWORD || item == Material.GOLDEN_SWORD || item == Material.DIAMOND_SWORD) {
+				if (event.getEntity() instanceof Player) {
+					data.setStat(p.getName(), statName.correctHitSword, data.getStat(p.getName(), statName.correctHitSword) + 1);
+					p.sendMessage("+ 1 bon");
+				} else {  //modif par badHitSword
+					data.setStat(p.getName(), statName.correctHitSword, data.getStat(p.getName(), statName.correctHitSword) + 1);
+					p.sendMessage("+ 1 mauvais");
+					p.sendMessage("" + data.getStat(p.getName(), statName.correctHitSword));
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onMoving(PlayerMoveEvent pEvent) {
+		Location l = new Location(pEvent.getPlayer().getWorld(), pEvent.getPlayer().getLocation().getX() + 5 * pEvent.getPlayer().getLocation().getDirection().getX(), pEvent.getPlayer().getLocation().getY() + 5 * pEvent.getPlayer().getLocation().getY() + 1, pEvent.getPlayer().getLocation().getZ() + 5 * pEvent.getPlayer().getLocation().getZ());
+		pEvent.getPlayer().spawnParticle(Particle.DRAGON_BREATH, l, 1, 0, 0, 0, 0);
+	}
+}

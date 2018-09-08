@@ -1,0 +1,5 @@
+package fr.Dyrazz.DataBase.Commands;
+
+public class CommandsParticles {
+
+}

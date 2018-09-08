@@ -1,0 +1,48 @@
+package fr.Dyrazz.DataBase.Events;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+
+public class Appearences implements Listener {
+	public enum appearencesName {
+		water_walk,
+		lava_warlk
+	}
+	
+	@EventHandler
+	public static void onWalking(Player p) {
+	    double space = 0.2D;
+	    double defX = location.getX() - space * this.shape[0].length / 2.0D + space;
+	    double x = defX;
+	    double y = location.clone().getY() + 2.0D;
+	    double angle = -((location.getYaw() + 180.0F) / 60.0F);
+	    angle += (location.getYaw() < -180.0F ? 3.25D : 2.985D);
+	    for (boolean[] aShape : this.shape) {
+	      for (boolean anAShape : aShape) {
+	        if (anAShape) {
+	          Location target = location.clone();
+	          target.setX(x);
+	          target.setY(y);
+	          
+	          Vector v = target.toVector().subtract(location.toVector());
+	          Vector v2 = getBackVector(location);
+	          v = rotateAroundAxisY(v, angle);
+	          v2.setY(0).multiply(-0.2D);
+	          
+	          location.add(v);
+	          location.add(v2);
+	          for (int k = 0; k < 3; k++) {
+	            UtilParticles.display(255, 255, 255, location);
+	          }
+	          location.subtract(v2);
+	          location.subtract(v);
+	        }
+	        x += space;
+	      }
+	      y -= space;
+	      x = defX;
+	    }
+	}
+}

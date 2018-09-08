@@ -1,0 +1,19 @@
+package fr.Dyrazz.DataBase.Commands;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import fr.Dyrazz.DataBase.Events.EventsCosmetics;
+
+public class CommandsParticles implements CommandExecutor {
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+		Player p = (Player) sender;
+		EventsCosmetics.runParticules(p, args[0], args[1], args[2], args[3]);
+		return true;
+	}
+
+}

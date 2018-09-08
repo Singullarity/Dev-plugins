@@ -1,0 +1,7 @@
+package fr.Dyrazz.DataBase.Commands;
+
+import org.bukkit.command.CommandExecutor;
+
+public class CommandsParticles implements CommandExecutor{
+
+}
